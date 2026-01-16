@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tejas Murkute - Robotics Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-cyan: #00d4ff;
+            --accent-magenta: #ff00aa;
+            --accent-green: #00ff88;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --border-color: #2a2a3a;
+            --gradient-1: linear-gradient(135deg, #00d4ff 0%, #00ff88 100%);
+            --gradient-2: linear-gradient(135deg, #ff00aa 0%, #00d4ff 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hero-tag::before {
+            content: '>';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 550px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .hero-image {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--accent-cyan);
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.3);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        section {
+            padding: 6rem 10%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-category {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .skill-category h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .skill-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 220px;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-description {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tech span {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-cyan);
+            padding: 0.4rem 0.8rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        .experience-timeline {
+            position: relative;
+            max-width: 900px;
+        }
+
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .experience-item {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 20px var(--accent-cyan);
+        }
+
+        .experience-date {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .experience-company {
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .experience-details {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .experience-details ul {
+            margin-top: 0.5rem;
+            padding-left: 1.2rem;
+        }
+
+        .experience-details li {
+            margin-bottom: 0.3rem;
+        }
+
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .education-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .education-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-5px);
+        }
+
+        .education-date {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .education-degree {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .education-school {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .education-focus {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            transform: translateX(10px);
+        }
+
+        .contact-link-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-image {
+                display: none;
+            }
+            
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 5%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 4rem 5%;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .projects-grid,
+            .education-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">&lt;TM /&gt;</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-tag">Robotics & Automation Engineer</div>
+            <h1>Hi, I'm <span>Tejas Murkute</span></h1>
+            <p class="hero-subtitle">M.Sc. Industry 4.0 | Working Student @ Arcane Solutions</p>
+            <p class="hero-description">
+                Passionate about building intelligent robotic systems using ROS 2, MoveIt 2, and computer vision. Currently developing vision-based robotic arm solutions at a Germany-based technology startup.
+            </p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+                <a href="#contact" class="btn btn-secondary">Contact Me</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <!-- Replace with your actual photo -->
+            <div class="hero-image-placeholder">
+                Add your photo<br>assets/profile.jpg
+            </div>
+            <!-- Uncomment when you have your photo: -->
+            <!-- <img src="assets/profile.jpg" alt="Tejas Murkute"> -->
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-header">
+            <div class="section-tag">// ABOUT ME</div>
+            <h2 class="section-title">Building the Future of Robotics</h2>
+        </div>
+        <div class="about-content">
+            <div class="about-text">
+                <p>
+                    I'm a Robotics and Automation Engineer with a background in Mechanical Engineering and currently pursuing my Master's degree in Industry 4.0: Automation, Robotics & 3D Manufacturing at SRH Berlin University of Applied Sciences.
+                </p>
+                <p>
+                    My journey combines a strong foundation in engineering with hands-on experience in production support and automation from Goldman Sachs, where I worked as a Technical Analyst in the Prime Services Risk Technology team. Now, I'm channeling my passion for robotics into real-world applications.
+                </p>
+                <p>
+                    Currently at Arcane Solutions, I'm developing vision-based robotic arm systems using ROS 2, Gazebo, MoveIt 2, and OpenCV. I believe in learning by doing – every project is an opportunity to push boundaries and create impactful automation solutions.
+                </p>
+            </div>
+            <div class="about-stats">
+                <div class="stat-card">
+                    <div class="stat-number">3+</div>
+                    <div class="stat-label">Robotics Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2+</div>
+                    <div class="stat-label">Years Industry Experience</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">ROS 2</div>
+                    <div class="stat-label">Jazzy & Humble</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">🇩🇪</div>
+                    <div class="stat-label">Based in Berlin</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="section-header">
+            <div class="section-tag">// SKILLS</div>
+            <h2 class="section-title">Technical Expertise</h2>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3><span class="skill-icon">🤖</span>Robotics & Simulation</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">ROS 2 Jazzy</span>
+                    <span class="skill-tag">ROS 2 Humble</span>
+                    <span class="skill-tag">Gazebo</span>
+                    <span class="skill-tag">MoveIt 2</span>
+                    <span class="skill-tag">URDF/Xacro</span>
+                    <span class="skill-tag">RViz</span>
+                    <span class="skill-tag">TF/TF2</span>
+                    <span class="skill-tag">SLAM</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3><span class="skill-icon">🦾</span>Robot Manipulation</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">UR3e/UR5</span>
+                    <span class="skill-tag">3DOF Arms</span>
+                    <span class="skill-tag">Pick & Place</span>
+                    <span class="skill-tag">Kinematics</span>
+                    <span class="skill-tag">Motion Planning</span>
+                    <span class="skill-tag">ros2_control</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3><span class="skill-icon">👁️</span>Computer Vision</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">OpenCV</span>
+                    <span class="skill-tag">Object Detection</span>
+                    <span class="skill-tag">Image Processing</span>
+                    <span class="skill-tag">Vision-based Control</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3><span class="skill-icon">💻</span>Programming & Tools</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">C++</span>
+                    <span class="skill-tag">Git/GitLab</span>
+                    <span class="skill-tag">Linux</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">CI/CD</span>
+                    <span class="skill-tag">SQL</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="section-header">
+            <div class="section-tag">// PROJECTS</div>
+            <h2 class="section-title">Featured Work</h2>
+        </div>
+        <div class="projects-grid">
+            <!-- Project 1: UR3e Pick & Place -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="assets/projects/ur3e_pick_place.png" alt="UR3e Pick and Place">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">UR3e Pick & Place Simulation</h3>
+                    <p class="project-description">
+                        A complete ROS 2 Jazzy workspace for simulating and controlling a Universal Robots UR3e manipulator performing pick and place operations with MoveIt 2 integration. Features a custom world with objects for manipulation tasks.
+                    </p>
+                    <div class="project-tech">
+                        <span>ROS 2 Jazzy</span>
+                        <span>MoveIt 2</span>
+                        <span>Gazebo</span>
+                        <span>Python</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/HerrTejas/ur3e_pick_place_ws" class="project-link" target="_blank">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            View Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2: 3DOF Arm -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="assets/projects/3dof_arm.png" alt="3DOF Robotic Arm">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">3DOF Robotic Arm (Jazzy)</h3>
+                    <p class="project-description">
+                        A 3-DOF robotic manipulator simulation with ros2_control and MoveIt 2 integration. Adapted for ROS 2 Jazzy with kinematics, trajectory control, and object manipulation capabilities.
+                    </p>
+                    <div class="project-tech">
+                        <span>ROS 2 Jazzy</span>
+                        <span>MoveIt 2</span>
+                        <span>ros2_control</span>
+                        <span>Kinematics</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/HerrTejas/roboticarm_ros2_jazzy" class="project-link" target="_blank">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            View Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3: Mobile Robot -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="assets/projects/mobile_robot.png" alt="Mobile Robot Simulation">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Custom Mobile Robot</h3>
+                    <p class="project-description">
+                        Designed and built a custom mobile robot from scratch – URDF/Xacro model, physical properties, collision geometry, and TF publishing. Simulated in Gazebo with ROS 2.
+                    </p>
+                    <div class="project-tech">
+                        <span>ROS 2</span>
+                        <span>URDF/Xacro</span>
+                        <span>Gazebo</span>
+                        <span>TF2</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/HerrTejas/ros2_my_mobile_robot" class="project-link" target="_blank">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            View Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="section-header">
+            <div class="section-tag">// EXPERIENCE</div>
+            <h2 class="section-title">Work Experience</h2>
+        </div>
+        <div class="experience-timeline">
+            <div class="experience-item">
+                <div class="experience-date">October 2025 - Present</div>
+                <div class="experience-title">Working Student - Robotics</div>
+                <div class="experience-company">Arcane Solutions GmbH & Co KG, Munich</div>
+                <div class="experience-details">
+                    <ul>
+                        <li>Developing vision-based robotic arm utilizing ROS 2, Gazebo, MoveIt 2, and OpenCV</li>
+                        <li>Engaged in simulation-based robotics projects focusing on robotic arm development and automation</li>
+                        <li>Working under mentorship from professionals at a Germany-based technology startup</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="experience-item">
+                <div class="experience-date">April 2023 - August 2024</div>
+                <div class="experience-title">Technical Analyst</div>
+                <div class="experience-company">Goldman Sachs, Bengaluru</div>
+                <div class="experience-details">
+                    <ul>
+                        <li>Prime Services Risk Technology team - provided tier-3 support for margin reporting applications</li>
+                        <li>Reduced incident response time by automating key processes</li>
+                        <li>Implemented monitoring dashboards with Prometheus & Grafana</li>
+                        <li>Managed CI/CD pipelines using GitLab and deployed cloud resources</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="experience-item">
+                <div class="experience-date">July 2022 - August 2024</div>
+                <div class="experience-title">System Engineer</div>
+                <div class="experience-company">Infosys, Pune</div>
+                <div class="experience-details">
+                    <ul>
+                        <li>Software development and system engineering roles</li>
+                        <li>Technical documentation and cross-functional collaboration</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education">
+        <div class="section-header">
+            <div class="section-tag">// EDUCATION</div>
+            <h2 class="section-title">Academic Background</h2>
+        </div>
+        <div class="education-grid">
+            <div class="education-card">
+                <div class="education-date">April 2025 - April 2027</div>
+                <div class="education-degree">M.Sc. Industry 4.0: Automation, Robotics & 3D Manufacturing</div>
+                <div class="education-school">SRH Berlin University of Applied Sciences, Germany</div>
+                <div class="education-focus">Focus: Robotics, Automation, Additive Manufacturing, Industry 4.0</div>
+            </div>
+            <div class="education-card">
+                <div class="education-date">2018 - 2022</div>
+                <div class="education-degree">B.Tech. Mechanical Engineering</div>
+                <div class="education-school">Annasaheb Dange College of Engineering and Technology, Ashta</div>
+                <div class="education-focus">Focus: Mechanical Systems, Manufacturing, CAD/CAM</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-header">
+            <div class="section-tag">// CONTACT</div>
+            <h2 class="section-title">Let's Connect</h2>
+        </div>
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3>Get in Touch</h3>
+                <p>
+                    I'm always open to discussing robotics projects, collaboration opportunities, or positions in robotics and automation. Feel free to reach out!
+                </p>
+                <div class="contact-links">
+                    <a href="/cdn-cgi/l/email-protection#b7dfd2c5c5c3d2ddd6c4dac2c5dcc2c3d2f7d0dad6dedb99d4d8da" class="contact-link">
+                        <span class="contact-link-icon">📧</span>
+                        <span><span class="__cf_email__" data-cfemail="ed85889f9f9988878c9e80989f86989988ad8a808c8481c38e8280">[email&#160;protected]</span></span>
+                    </a>
+                    <a href="https://linkedin.com/in/tejas-murkute-b1792a1b8" class="contact-link" target="_blank">
+                        <span class="contact-link-icon">💼</span>
+                        <span>LinkedIn Profile</span>
+                    </a>
+                    <a href="https://github.com/HerrTejas" class="contact-link" target="_blank">
+                        <span class="contact-link-icon">🐙</span>
+                        <span>GitHub - HerrTejas</span>
+                    </a>
+                </div>
+            </div>
+            <div class="contact-cta">
+                <div class="stat-card" style="text-align: center; padding: 3rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🚀</div>
+                    <h3 style="margin-bottom: 1rem;">Open to Opportunities</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+                        Looking for full-time roles, thesis collaborations, or working student positions in robotics and automation engineering.
+                    </p>
+                    <a href="/cdn-cgi/l/email-protection#127a77606066777873617f67607967667752757f737b7e3c717d7f" class="btn btn-primary">Send a Message</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Tejas Murkute. Built with passion for robotics.</p>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(an
